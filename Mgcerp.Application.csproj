@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.11" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ALMARAN-MODELS\Mgcerp.Models\Mgcerp.Models.csproj" />
+    <ProjectReference Include="..\MFiles.Integration\MFiles.Integration.csproj" />
+    <ProjectReference Include="..\Mgcerp.Infrastructure\Mgcerp.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
