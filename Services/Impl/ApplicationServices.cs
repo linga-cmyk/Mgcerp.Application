@@ -18,6 +18,34 @@ namespace Mgcerp.Application.Services.Impl
         {
             // ─── Read Example in DapperHelper ────────────────────────────────────────────────────────────────
             /*
+             * var batch = new SqlTransactionBatch()
+                        .AddScalar(
+                            sqlGetNextAccCode,
+                            "AccCode",
+                            new
+                            {
+                                Prefix = "120201",
+                                AlphaCode = "A"
+                            })
+
+                        .AddExecute(
+                            insertHeader,
+                            ctx => new
+                            {
+                                AccCode = ctx["AccCode"],
+                                Name = "ABC Company"
+                            })
+
+                        .AddExecute(
+                            insertContact,
+                            ctx => new
+                            {
+                                AccCode = ctx["AccCode"],
+                                Contact = "John"
+                            });
+
+                    await _applicationService.ExecuteBulkAsync(batch);
+
              var batch = new SqlBatch();
                 batch.Add(insertHeader, header);
                 batch.Add(insertDetail, details);
@@ -102,6 +130,13 @@ namespace Mgcerp.Application.Services.Impl
                 Sql = sql,
                 Parameters = param
             });
+        }
+    }
+    public static class ContextExtensions
+    {
+        public static T Get<T>(this IDictionary<string, object> ctx, string key)
+        {
+            return (T)ctx[key];
         }
     }
 }
