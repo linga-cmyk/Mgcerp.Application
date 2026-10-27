@@ -2,6 +2,7 @@
 using Mgcerp.Infrastructure.Helpers;
 using Mgcerp.Models.DTOModels.EInvoice;
 using System.Data;
+using System.Globalization;
 
 namespace Mgcerp.Application.Common
 {
@@ -103,6 +104,58 @@ namespace Mgcerp.Application.Common
         {
             return new List<CygnetPaymentDetail> { new CygnetPaymentDetail { PaymentMode = "10" } };
         }
+
+        public static async Task<List<CygnetVatCategoryTotal>> GetVatCategoryWiseTotal(  List<CygnetLineItem> lineItems)
+        {
+            if (lineItems == null || lineItems.Count == 0)
+            {
+                return new List<CygnetVatCategoryTotal>();
+            }
+            var categoryTotal = lineItems
+                        .GroupBy(x => x.TaxCategoryCode)
+                        .Select(group =>
+                        {
+                            decimal taxableAmount = group.Sum(x =>
+                                decimal.TryParse(
+                                    x.TaxableAmount,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out decimal taxable)
+                                    ? taxable
+                                    : 0m);
+
+                            decimal taxAmount = group.Sum(x =>
+                                decimal.TryParse(
+                                    x.TaxAmount,
+                                    NumberStyles.Any,
+                                    CultureInfo.InvariantCulture,
+                                    out decimal tax)
+                                    ? tax
+                                    : 0m);
+
+                            string? taxRate = group
+                                .Select(x => x.TaxRate)
+                                .FirstOrDefault(rate => !string.IsNullOrWhiteSpace(rate));
+
+                            string? exemptionReason = group
+                                .Select(x => x.TaxExemptionReasonCode)
+                                .FirstOrDefault(reason => !string.IsNullOrWhiteSpace(reason));
+
+                            return new CygnetVatCategoryTotal
+                            {
+                                VatCategoryCode = group.Key,
+                                VatCategoryRate = taxRate,
+                                VatCategoryTaxableAmount = taxableAmount.ToString(
+                                    "0.00", CultureInfo.InvariantCulture),
+                                VatCategoryTaxAmount = taxAmount.ToString(
+                                    "0.00", CultureInfo.InvariantCulture),
+                                VatExemptionReason = exemptionReason
+                            };
+                        })
+                        .ToList();
+            return categoryTotal;
+        }
+
         #endregion E-Invoicing
     }
 
