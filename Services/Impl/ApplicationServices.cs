@@ -9,9 +9,9 @@ namespace Mgcerp.Application.Services.Impl
     public class ApplicationServices : IApplicationServices
     {
         private readonly IDapperHelper _dapper;
-        public ApplicationServices(IDapperHelper dapper)
+        public ApplicationServices(/*IDapperHelper dapper*/)
         {
-                _dapper = dapper;
+                //_dapper = dapper;
         }
 
         public async Task<ResponseResult> ExecuteBulkAsync(IEnumerable<SqlExecutionItem> items, string? countryCode = null)
