@@ -1,5 +1,6 @@
 ﻿using CygnetEInvoice.Models;
 using Mgcerp.Infrastructure.Helpers;
+using Mgcerp.Models.DTOModels.EInvoice;
 using System.Data;
 
 namespace Mgcerp.Application.Common
