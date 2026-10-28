@@ -1,6 +1,7 @@
 ﻿using CygnetEInvoice.Models;
 using Mgcerp.Infrastructure.Helpers;
 using Mgcerp.Models.DTOModels.EInvoice;
+using Mgcerp.Models.DTOModels.EInvoice.Dtos;
 using System.Data;
 using System.Globalization;
 
@@ -306,7 +307,49 @@ namespace Mgcerp.Application.Common
                         .ToList();
             return categoryTotal;
         }
+        public static async Task<List<EInvoiceSubmissionDto>?> GetInvoiceSubmissionLog(string uuid, IDapperHelper dapper, IDbTransaction? txn=null)
+        {
+            const string sql = @"
+            SELECT
+                Id,
+                Country_Code,
+                ErpDocumentNumber,
+                SubmittedDocumentNumber,
+                DocumentUuid,
+                SupplyType,
+                DocumentType,
+                DocumentTypePurpose,
+                TransactionTypeCode,
+                DocumentDate,
+                DocumentCurrency,
+                ExchangeRate,
+                TotalDocumentAmount,
+                TotalDocAmountInAccCurrency,
+                EntityTaxRegNo,
+                BillToTaxRegNo,
+                BillToLegalName,
+                ReferenceId,
+                Status,
+                StatusText,
+                ErrorMessages,
+                StatusAttempts,
+                NextCheckAt,
+                LastCheckedAt,
+                CompletedAt,
+                LastStatusHttpCode,
+                LastStatusResponse,
+                SubmitHttpCode,
+                SubmitResponse,
+                SubmittedAt,
+                SubmittedBy,
+                UpdatedAt
+            FROM dbo.einvoiceSubmission
+            WHERE DocumentUuid = @DocumentUuid;";
 
+            List<EInvoiceSubmissionDto>? result = (await dapper.QueryAsync<EInvoiceSubmissionDto>(sql,new { DocumentUuid = uuid.Trim() })).ToList();
+
+            return result;
+        }
         #endregion E-Invoicing
     }
 
