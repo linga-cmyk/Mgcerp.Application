@@ -31,6 +31,10 @@ namespace Mgcerp.Application.Common
        string co,
        IDapperHelper dapper,
        IDbTransaction? txn = null);
+
+        Task<List<CygnetLegalAgency>> GetBillFromLegalAgency(string fyCode, IDapperHelper dapper, IDbTransaction? txn = null);
+        Task<List<CygnetLegalAgency>> GetBillToLegalAgency(string customerID, IDapperHelper dapper, IDbTransaction? txn = null);
+        Task<List<CygnetPaymentDetail>> GetPaymentDetails(string paycode, IDapperHelper dapper, IDbTransaction? txn = null);
     }
     public class ApplicationCommonServices : IApplicationCommonServices
     {
@@ -255,6 +259,29 @@ namespace Mgcerp.Application.Common
             docBuy.BillToPostCode = Buyer.BillToPostCode;
             docBuy.BillToCountry = Buyer.BillToCountry;
             docBuy.BillToCountrySubdivision = Buyer.BillToCountrySubdivision;
+        }
+
+        public   async Task<List<CygnetLegalAgency>> GetBillFromLegalAgency(string fyCode, IDapperHelper dapper, IDbTransaction? txn = null)
+        {
+            return new List<CygnetLegalAgency>  { new CygnetLegalAgency
+                    {
+                    AgencyId = "TL",
+                    AgencyName = "UAE Sender",
+                    PassportCountry = "AE"
+                    }};
+        }
+        public   async Task<List<CygnetLegalAgency>> GetBillToLegalAgency(string customerID, IDapperHelper dapper, IDbTransaction? txn = null)
+        {
+            return new List<CygnetLegalAgency> { new CygnetLegalAgency{
+                                                        AgencyId = "EID",
+                                                        AgencyName = "UAE Receiver",
+                                                        PassportCountry = "AE" }
+                                                };
+        }
+
+        public   async Task<List<CygnetPaymentDetail>> GetPaymentDetails(string paycode, IDapperHelper dapper, IDbTransaction? txn = null)
+        {
+            return new List<CygnetPaymentDetail> { new CygnetPaymentDetail { PaymentMode = "10" } };
         }
 
     }
