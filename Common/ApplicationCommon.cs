@@ -171,7 +171,7 @@ namespace Mgcerp.Application.Common
             if (Buyer == null)
             {
                 throw new InvalidOperationException(
-                    $"Seller details not found for company '{acccode}'.");
+                    $"Buyer details not found for company '{acccode}'.");
             }
 
             docBuy.BillToTaxRegNo = Buyer.BillToTaxRegNo;
@@ -354,3 +354,9 @@ namespace Mgcerp.Application.Common
     }
 
 }
+
+
+
+
+
+
