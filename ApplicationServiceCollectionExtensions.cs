@@ -1,6 +1,7 @@
 ﻿using Mgcerp.Application.Common;
 using Mgcerp.Application.Services;
 using Mgcerp.Infrastructure.Helpers;
+using Mgcerp.Models.DTOModels.EInvoice;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,7 @@ namespace Mgcerp.Application
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            //services.AddScoped<IDapperHelper, DapperHelper>();
+            
             services.AddScoped<IApplicationCommonServices, ApplicationCommonServices>();
             services.AddScoped<IEInvoiceLogService, EInvoiceLogService>();
             return services;
